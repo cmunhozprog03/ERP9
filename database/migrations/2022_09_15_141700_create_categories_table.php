@@ -15,6 +15,14 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+
+            $table->string('name')->unique();
+            $table->string('url')->unique();
+            $table->text('description')->nullable();
+            $table->enum('active', [1, 2])->default(1);
+            $table->string('image')->nullable();
+            $table->string('thumb')->nullable();
+
             $table->timestamps();
         });
     }
