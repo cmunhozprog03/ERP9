@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdateCategory;
+use Intervention\Image\Facades\Image;
 
 class CategoryController extends Controller
 {
@@ -35,9 +38,29 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdateCategory $request)
     {
-        //
+        
+        $data = $request->all();
+        $data['url'] = Str::slug($request->name);
+
+        if ($request->photo) {
+            $data['photo'] = $request->photo->store('categories');
+
+            $image = $request->file('photo');
+            $input['imagename'] = time().'.'.$image->extension();
+
+            $destinationPath = public_path('thumbs');
+            $img = Image::make($image->path());
+            $img->resize(300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destinationPath.'/'.$input['imagename']);   
+
+        }
+
+        Category::create($data);
+
+        return redirect()->route('admin.categories.index');
     }
 
     /**

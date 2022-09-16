@@ -14,9 +14,10 @@
       <header class="w3-container w3-dark-gray">
         <h2>Nova Categoria</h2>
       </header>
-      <div class="w3-container">
-
-      </div>
+      <form action="{{ route('admin.categories.store') }}" method="POST" enctype="multipart/form-data">
+        <div class="w3-container">
+          @include('admin.categories._partials.form')
+        </div>
       <footer>
         <div class="row justify-content-around">
           <a href="" class="btn btn-outline-dark">CANCELAR</a>
@@ -24,6 +25,7 @@
         </div>
         
       </footer>
+      </form>
     </div>
   </div>
 </div>

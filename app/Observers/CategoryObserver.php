@@ -3,18 +3,19 @@
 namespace App\Observers;
 
 use App\Models\Category;
+use Illuminate\Support\Str;
 
-class CategoryObeserver
+class CategoryObserver
 {
     /**
-     * Handle the Category "created" event.
+     * Handle the Category "creating" event.
      *
      * @param  \App\Models\Category  $category
      * @return void
      */
-    public function created(Category $category)
+    public function creating(Category $category)
     {
-        //
+        $this->url = Str::slug($this->name);
     }
 
     /**

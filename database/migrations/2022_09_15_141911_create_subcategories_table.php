@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('url')->unique();
             $table->text('description')->nullable();
             $table->enum('active', [1, 2])->default(1);
-            $table->string('image')->nullable();
+            $table->string('photo')->nullable();
             $table->string('thumb')->nullable();
 
             $table->timestamps();
