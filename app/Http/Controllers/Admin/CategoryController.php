@@ -42,19 +42,29 @@ class CategoryController extends Controller
     {
         
         $data = $request->all();
+        //eturn $request->file('photo');
+        
         $data['url'] = Str::slug($request->name);
 
         if ($request->photo) {
             $data['photo'] = $request->photo->store('categories');
-
-            $image = $request->file('photo');
-            $input['imagename'] = time().'.'.$image->extension();
-
-            $destinationPath = public_path('thumbs');
-            $img = Image::make($image->path());
-            $img->resize(300, null, function ($constraint) {
+            
+            $nombre = Str::random(20) . $request->file('photo')->getClientOriginalName();
+            
+            $ruta = storage_path() . '\app\public\categories/' . $nombre;
+            
+            Image::make($request->file('photo'))
+            ->resize(300, null, function ($constraint) {
                 $constraint->aspectRatio();
-            })->save($destinationPath.'/'.$input['imagename']);   
+            })->save($ruta);
+            // $image = $request->file('photo');
+            // $input['imagename'] = time().'.'.$image->extension();
+
+            // $destinationPath = public_path('thumbs');
+            // $img = Image::make($image->path());
+            // $data['thumb'] = $img->resize(300, 200, function ($constraint) {
+            //      $constraint->aspectRatio();
+            //  })->save($destinationPath.'//'.$input['imagename']);   
 
         }
 
